@@ -23,18 +23,17 @@ int main(int argc, char *argv[])
 			index.insert(n);
 		}
 	}
-	set<int>::reverse_iterator it; //定义反向迭代器
-	for(it=index.rbegin();it!=index.rend();it++)
+	for(auto it=index.rbegin();it!=index.rend();it++)
 	{
 		a_n = data[0][*it]+data[1][*it];
-		if(a_n>=-1e-6&&a_n<=1e-6)
+		if(a_n>-0.1&&a_n<0.1)
 		{
 			index.erase(*it);//删除等于零的元素及其索引
 			continue;
 		}
 	}
 	cout << index.size();
-	for(it=index.rbegin();it!=index.rend();it++)
+	for(auto it=index.rbegin();it!=index.rend();it++)
 	{
 		cout << " " << *it << " ";
 		cout << setiosflags((ios::fixed));
