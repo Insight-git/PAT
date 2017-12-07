@@ -20,7 +20,7 @@ Node* BuildBinaryTree(unsigned int *post, unsigned int *in, unsigned int N)
 	unsigned int i = 0;
 	if (N == 0)
 		return NULL;
-	Node *root = new Node;
+	Node *root = new Node();
 	for (i = 0; in[i] != post[N - 1]; i++);
 	root->val = in[i];
 	root->left = BuildBinaryTree(post, in, i);
