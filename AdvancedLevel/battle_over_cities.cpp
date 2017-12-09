@@ -1,4 +1,4 @@
-/*solution 1*/
+/*solution 1  DFS*/
 #include<iostream>
 #include<cstring>
 using namespace std;
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 }
 
 
-/*solution 2*/
+/*solution 2  BFS*/
 #include<iostream>
 #include<queue>
 #include<cstring>
@@ -125,6 +125,81 @@ int main(int argc, char *argv[])
 	}
 	delete graph;
 	delete [] visited;
+	return 0;
+}
+
+/*solution 3  Union-Find Set*/
+#include<iostream>
+using namespace std;
+
+typedef struct 
+{
+	unsigned int begin;
+	unsigned int end;
+}Edge;
+
+unsigned int Find(unsigned int x,unsigned int *parent)
+{
+	unsigned int root = x;
+	while(root!=parent[root])
+	{
+		root = parent[root];
+	}
+	unsigned int temp = x;
+	while(temp!=root)
+	{
+		temp = parent[x];
+		parent[x] = root;
+		x = temp;
+	}
+	return root;
+}
+
+void JoinSet(unsigned int u, unsigned int v, unsigned int *parent)
+{
+	unsigned int x = Find(u,parent);
+	unsigned int y = Find(v,parent);
+	if(x!=y)
+		parent[x] = y;
+}
+
+int main(int argc, char *argv[])
+{
+	unsigned int N = 0, M = 0, K = 0;
+	unsigned int i = 0, j = 0;
+	unsigned int temp = 0, sum = 0;
+	cin >> N >> M >> K;
+	unsigned int *parent = new unsigned int[N+1] {};
+	Edge *edge = new Edge[M] {};
+	for(i=0;i<M;i++)
+	{
+		cin >> edge[i].begin >> edge[i].end;
+	}
+	for(i=0;i<K;i++)
+	{
+		cin >> temp;
+		for(j=0;j<=N;j++)//初始化并查集
+		{
+			parent[j] = j;
+		}
+		for(j=0;j<M;j++)
+		{
+			if(edge[j].begin!=temp&&edge[j].end!=temp)
+				JoinSet(edge[j].begin,edge[j].end,parent);
+		}
+		sum = 0;
+		for(j=1;j<=N;j++)
+		{
+			if(j==temp)
+				continue;
+			if(parent[j]==j)
+				sum++;
+		}
+		sum = (sum == 0 ? 0 : (sum - 1));
+		cout << sum << endl;
+	}
+	delete [] parent;
+	delete [] edge;
 	return 0;
 }
 
